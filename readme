@@ -1,0 +1,41 @@
+# yml_config()
+
+Возвращает config.yml в виде объекта
+
+# sendMessage()
+
+Отправка уведомления об ошибке
+
+Работает при уставноке в config.yml `mode` равного `prod`
+
+# GlobalErrorInterceptor and HandleModuleInitErrors
+
+Предназначены для обработки ошибок при вызове методов RPC и инициализации модулей соответственно.
+
+## Использование
+
+### GlobalErrorInterceptor
+
+Добавьте `GlobalErrorInterceptor` в `main.ts`:
+
+```ts
+app.useGlobalInterceptors(new GlobalErrorInterceptor());
+```
+
+### HandleModuleInitErrors
+
+
+Декоратор для обработки ошибок над onModuleInit во всех модулях приложения:
+Для production использования необходимо указать threadId в config.yml
+
+#### Пример использования
+```ts
+export class ExampleModule {
+  constructor() {}
+
+  @HandleModuleInitErrors()
+  onModuleInit() {
+   throw new Error('Module init error');
+  }
+}
+```
